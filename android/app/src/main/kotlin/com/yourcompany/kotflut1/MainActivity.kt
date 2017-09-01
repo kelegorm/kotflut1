@@ -3,32 +3,27 @@ package com.yourcompany.kotflut1
 import android.os.Bundle
 
 import io.flutter.app.FlutterActivity
+import io.flutter.plugin.common.BasicMessageChannel
+import io.flutter.plugin.common.StringCodec
 import io.flutter.plugins.GeneratedPluginRegistrant
-//import org.jetbrains.anko.*
+import org.jetbrains.anko.*
 
-class MainActivity(): FlutterActivity()/*, AnkoLogger*/ {
+class MainActivity: FlutterActivity(), AnkoLogger {
 
-//  var messageChannel: BasicMessageChannel
+  lateinit var messageChannel: BasicMessageChannel<String>
+
+  private val CHANNEL = "increment"
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-    val intent = getIntent()
+    //val intent = this.intent
 
-    //info("1")
-
-//    val flutterView = findViewById(R.id.flutter_view) as FlutterView
-//    flutterView.runFromBundle(FlutterMain.findAppBundlePath(getApplicationContext()), null)
-
-//    messageChannel = BasicMessageChannel<T>(flutterView, CHANNEL, StringCodec.INSTANCE)
-//    messageChannel.setMessageHandler(obj: MessageHandler<String> {
-//      @Override
-//      override fun onMessage(s: String, reply: Reply<String>) {
-//        onFlutterIncrement()
-//        reply.reply(EMPTY_MESSAGE)
-//        info("2")
-//      }
-//    })
+    messageChannel = BasicMessageChannel<String>(flutterView, CHANNEL, StringCodec.INSTANCE)
+    val ert : BasicMessageChannel.MessageHandler<String> = BasicMessageChannel.MessageHandler(function =
+        {s, reply -> info("got message: $s"); reply.reply("")}
+    )
+    messageChannel.setMessageHandler(ert)
 
     GeneratedPluginRegistrant.registerWith(this)
   }
