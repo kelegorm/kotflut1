@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
       _counter++;
 
-      platform.send("Sended message");
+      platform.send("make_icon");
       print("lalal1");
     });
   }
