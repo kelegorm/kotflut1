@@ -12,6 +12,10 @@ import org.jetbrains.anko.*
 
 class MainActivity: FlutterActivity(), AnkoLogger {
 
+  val REMINDER_ACTION = "com.yourcompany.kotflut1.addReminder"
+  val ADD_REMINDER_ROUTE = "addReminderRoute"
+
+
   lateinit var messageChannel: BasicMessageChannel<String>
 
   private val CHANNEL = "increment"
@@ -20,10 +24,8 @@ class MainActivity: FlutterActivity(), AnkoLogger {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-    //val intent = this.intent
-    intent
-
-    flutterView.setInitialRoute("main")
+    if (intent.action == REMINDER_ACTION)
+      flutterView.setInitialRoute(ADD_REMINDER_ROUTE)
 
     messageChannel = BasicMessageChannel<String>(flutterView, CHANNEL, StringCodec.INSTANCE)
     val ert : BasicMessageChannel.MessageHandler<String> = BasicMessageChannel.MessageHandler(function =
@@ -36,12 +38,14 @@ class MainActivity: FlutterActivity(), AnkoLogger {
     messageChannel.setMessageHandler(ert)
 
     GeneratedPluginRegistrant.registerWith(this)
+
+    info(intent.action)
   }
 
 
   fun createShortcut() {
     val shortcutIntent = Intent(this, MainActivity::class.java)
-    shortcutIntent.action = Intent.ACTION_MAIN
+    shortcutIntent.action = REMINDER_ACTION//Intent.ACTION_MAIN
 
     val intent = Intent()
     intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)

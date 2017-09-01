@@ -23,6 +23,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: new MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: <String, WidgetBuilder>{
+        '/':         (BuildContext context) => new StockHome(stocks, _configuration, configurationUpdater),
+        '/settings': (BuildContext context) => new StockSettings(_configuration, configurationUpdater)
+      },
     );
   }
 }
@@ -63,8 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
       _counter++;
 
-      platform.send("make_icon");
-      print("lalal1");
+      platform.send("sended message");
     });
   }
 
@@ -108,6 +111,10 @@ class _MyHomePageState extends State<MyHomePage> {
               '${_counter}',
               style: Theme.of(context).textTheme.display1,
             ),
+            new MaterialButton(
+              child: new Text("add reminder"),
+              onPressed: () => platform.send("make_icon"),
+            )
           ],
         ),
       ),
