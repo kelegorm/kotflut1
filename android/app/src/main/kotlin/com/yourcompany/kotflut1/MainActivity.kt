@@ -13,7 +13,7 @@ import org.jetbrains.anko.*
 class MainActivity: FlutterActivity(), AnkoLogger {
 
   val REMINDER_ACTION = "com.yourcompany.kotflut1.addReminder"
-  val ADD_REMINDER_ROUTE = "addReminderRoute"
+  val ADD_REMINDER_ROUTE = "/reminder"
 
 
   lateinit var messageChannel: BasicMessageChannel<String>
@@ -24,8 +24,10 @@ class MainActivity: FlutterActivity(), AnkoLogger {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-    if (intent.action == REMINDER_ACTION)
-      flutterView.setInitialRoute(ADD_REMINDER_ROUTE)
+    if (intent.action == REMINDER_ACTION) {
+      info("intent action is add reminder, so pushing route")
+      flutterView.pushRoute(ADD_REMINDER_ROUTE)
+    }
 
     messageChannel = BasicMessageChannel<String>(flutterView, CHANNEL, StringCodec.INSTANCE)
     val ert : BasicMessageChannel.MessageHandler<String> = BasicMessageChannel.MessageHandler(function =
@@ -40,6 +42,17 @@ class MainActivity: FlutterActivity(), AnkoLogger {
     GeneratedPluginRegistrant.registerWith(this)
 
     info(intent.action)
+  }
+
+  override fun onStart() {
+    super.onStart()
+    info("on start")
+    flutterView.pushRoute(ADD_REMINDER_ROUTE)
+  }
+
+  override fun onResume() {
+    super.onResume()
+    info("on resume")
   }
 
 
