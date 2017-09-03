@@ -26,7 +26,7 @@ class MainActivity: FlutterActivity(), AnkoLogger {
 
     if (intent.action == REMINDER_ACTION) {
       info("intent action is add reminder, so pushing route")
-      flutterView.pushRoute(ADD_REMINDER_ROUTE)
+      flutterView.setInitialRoute(ADD_REMINDER_ROUTE)
     }
 
     messageChannel = BasicMessageChannel<String>(flutterView, CHANNEL, StringCodec.INSTANCE)
@@ -46,8 +46,11 @@ class MainActivity: FlutterActivity(), AnkoLogger {
 
   override fun onStart() {
     super.onStart()
-    info("on start")
-    flutterView.pushRoute(ADD_REMINDER_ROUTE)
+
+    if (intent.action == REMINDER_ACTION) {
+      info("on start, setting reminder route")
+      flutterView.pushRoute(ADD_REMINDER_ROUTE)
+    }
   }
 
   override fun onResume() {
