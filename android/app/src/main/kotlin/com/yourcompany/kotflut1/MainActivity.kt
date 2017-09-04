@@ -1,5 +1,6 @@
 package com.yourcompany.kotflut1
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -8,6 +9,7 @@ import io.flutter.app.FlutterActivity
 import io.flutter.plugin.common.BasicMessageChannel
 import io.flutter.plugin.common.StringCodec
 import io.flutter.plugins.GeneratedPluginRegistrant
+import io.flutter.view.FlutterView
 import org.jetbrains.anko.*
 
 class MainActivity: FlutterActivity(), AnkoLogger {
@@ -24,6 +26,8 @@ class MainActivity: FlutterActivity(), AnkoLogger {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
+    info("onCreate, after super")
+
     if (intent.action == REMINDER_ACTION) {
       info("intent action is add reminder, so pushing route")
       flutterView.setInitialRoute(ADD_REMINDER_ROUTE)
@@ -31,9 +35,9 @@ class MainActivity: FlutterActivity(), AnkoLogger {
 
     messageChannel = BasicMessageChannel<String>(flutterView, CHANNEL, StringCodec.INSTANCE)
     val ert : BasicMessageChannel.MessageHandler<String> = BasicMessageChannel.MessageHandler(function =
-        {s, reply -> info("got message: $s");
-          reply.reply("");
-          if (s == "make_icon") createShortcut();
+        {s, reply -> info("got message: $s")
+          reply.reply("")
+          if (s == "make_icon") createShortcut()
           info("intent was: ${intent.action}")
         }
     )
@@ -44,19 +48,28 @@ class MainActivity: FlutterActivity(), AnkoLogger {
     info(intent.action)
   }
 
-  override fun onStart() {
-    super.onStart()
-
-    if (intent.action == REMINDER_ACTION) {
-      info("on start, setting reminder route")
-      flutterView.pushRoute(ADD_REMINDER_ROUTE)
-    }
+  override fun createFlutterView(context: Context?): FlutterView {
+    info("createFlutterView")
+    return super.createFlutterView(context)
+//    val view = super.createFlutterView(context)
+//    if (intent.action == REMINDER_ACTION) {
+//      view.setIni
+//    }
   }
 
-  override fun onResume() {
-    super.onResume()
-    info("on resume")
-  }
+//  override fun onStart() {
+//    super.onStart()
+//
+//    if (intent.action == REMINDER_ACTION) {
+//      info("on start, setting reminder route")
+//      flutterView.pushRoute(ADD_REMINDER_ROUTE)
+//    }
+//  }
+
+//  override fun onResume() {
+//    super.onResume()
+//    info("on resume")
+//  }
 
 
   fun createShortcut() {

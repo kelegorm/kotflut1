@@ -10,10 +10,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("""Building MainApp""");
     return new MaterialApp(
       title: 'Kot Flut 1',
       theme: new ThemeData(primarySwatch: Colors.blue),
       home: new MyHomePage(title: "Home Page",),
+      initialRoute: null,
       routes: <String, WidgetBuilder>{
 //        '/':         (BuildContext context) => new MyHomePage(title: "Home Page",),
         '/reminder': (BuildContext context) => new CreateReminderPage()
