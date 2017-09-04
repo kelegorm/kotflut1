@@ -92,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 // by back button instead of home page.
                 // May be from drawer [popAndPushNamed] can work normally, popping drawer away.
 //                Navigator.popAndPushNamed(context, '/reminder');
-                Navigator.pushNamed(context, '/reminder');
+                Navigator.pushNamed(context, ':reminder');
               },
             ),
             new MaterialButton(
