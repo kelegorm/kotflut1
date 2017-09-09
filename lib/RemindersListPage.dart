@@ -1,65 +1,84 @@
 library kot_flut_1.home_page;
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kot_flut_1/model.dart';
 
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class RemindersListPage extends StatefulWidget {
+  final List<Reminder> reminders;
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+  RemindersListPage({Key key, this.reminders}) : super(key: key);
 
-  final String title;
 
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  _ReminderListPageState createState() => new _ReminderListPageState(reminders: reminders);
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  static const String _channel = "increment";
+
+class _ReminderListPageState extends State<RemindersListPage> {
+  static const String _channel = 'increment';
+
+  static const String REMINDERS_TITLE = 'Reminders';
 
   static const BasicMessageChannel<String> platform =
-  const BasicMessageChannel<String>(_channel, const StringCodec());
+      const BasicMessageChannel<String>(_channel, const StringCodec());
+
+  List<Reminder> reminders;
 
 
-  int _counter = 0;
+  _ReminderListPageState({this.reminders});
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-
-      platform.send("sended message");
-      print("+ button clicked");
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return new Scaffold(
       appBar: new AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: new Text(widget.title),
+        title: new Text(REMINDERS_TITLE),
       ),
-      body: new Center(
+      body: new ListView.builder(
+        itemBuilder: (context, i) => new ListTile(title: new Text(reminders[i].text)),
+        itemCount: reminders.length,
+      ),
+      floatingActionButton: new FloatingActionButton(
+        onPressed: _onPressed,
+        tooltip: 'Increment',
+        child: new Icon(Icons.add),
+      ),
+    );
+  }
+
+
+  Future _onPressed() async {
+    String text = await Navigator.pushNamed(context, ':reminder');
+    if (text != null) {
+      setState(() {
+        reminders.add(new Reminder(text));
+      });
+    }
+  }
+
+//  void _incrementCounter() {
+//    setState(() {
+//      // This call to setState tells the Flutter framework that something has
+//      // changed in this State, which causes it to rerun the build method below
+//      // so that the display can reflect the updated values. If we changed
+//      // _counter without calling setState(), then the build method would not be
+//      // called again, and so nothing would appear to happen.
+////      _counter++;
+//
+//      platform.send("sended message");
+//      print("+ button clicked");
+//    });
+//  }
+}
+
+/*
+old center with buttons to create icon and add reminder
+      new Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: new Column(
@@ -103,12 +122,5 @@ class _MyHomePageState extends State<MyHomePage> {
             )
           ],
         ),
-      ),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: new Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-}
+      )
+ */
