@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "930925362982",
+    "firebase_url": "https://kot-flut-1.firebaseio.com",
+    "project_id": "kot-flut-1",
+    "storage_bucket": "kot-flut-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930925362982:android:78ff1aae563f04fc",
+        "android_client_info": {
+          "package_name": "com.yourcompany.kotflut1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930925362982-c3p3aj4pc8u8te3kctj40fk2nq54cv56.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yourcompany.kotflut1",
+            "certificate_hash": "4ee9aa15654ac6643daf0a9a414043e0893a0b5b"
+          }
+        },
+        {
+          "client_id": "930925362982-c2vd18dhmi8ljki8cibi6qtdq5soqiui.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcdLp38KMMOUgDG9s-uEZOSUgrmBVvBBA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "930925362982-c2vd18dhmi8ljki8cibi6qtdq5soqiui.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
