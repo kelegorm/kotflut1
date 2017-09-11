@@ -1,17 +1,18 @@
 library kot_flut_1.create_reminder_page;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 
-//typedef OnSubmitted<String>(String value);
+typedef OnSubmitted<String>(String value);
 
 
 class CreateReminderPage extends StatelessWidget {
 
-//  final OnSubmitted onSubmitted;
+  final OnSubmitted onSubmitted;
 
 
-  CreateReminderPage(/*{this.onSubmitted}*/);
+  CreateReminderPage({this.onSubmitted});
 
 
   @override
@@ -25,13 +26,22 @@ class CreateReminderPage extends StatelessWidget {
           new ListTile(
             title: new TextField(
               autofocus: true,
-              onSubmitted: (text) => Navigator.of(context).pop(text),
+              onSubmitted: (text) => _textField_submitted(text, context),
             ),
             leading: new Icon(Icons.note),
           ),
-//          new Text("Create reminder page"),
         ]
       )
     );
+  }
+
+  void _textField_submitted(String text, BuildContext context) {
+    if (onSubmitted != null) onSubmitted(text);
+
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    } else {
+      SystemNavigator.pop();
+    }
   }
 }

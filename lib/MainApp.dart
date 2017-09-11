@@ -29,7 +29,9 @@ class _MaintAppState extends State<MainApp> implements AppContext {
       theme: new ThemeData(primarySwatch: Colors.blue),
       home: new RemindersListPage(reminders: reminders),
       routes: <String, WidgetBuilder>{
-        ':reminder': (BuildContext context) => new CreateReminderPage()
+        ':reminder': (BuildContext context) => new CreateReminderPage(
+          onSubmitted: _createReminder_submitted,
+        )
       },
       onGenerateRoute: _getRoute,
     );
@@ -44,5 +46,16 @@ class _MaintAppState extends State<MainApp> implements AppContext {
           )
       ),
     );
+  }
+
+  void _createReminder_submitted(String text) {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      reminders.add(new Reminder(text));
+    });
   }
 }

@@ -44,37 +44,14 @@ class _ReminderListPageState extends State<RemindersListPage> {
         itemCount: reminders.length,
       ),
       floatingActionButton: new FloatingActionButton(
-        onPressed: _onPressed,
+        onPressed: () => Navigator.pushNamed(context, ':reminder'),
         tooltip: 'Increment',
         child: new Icon(Icons.add),
       ),
     );
   }
-
-
-  Future _onPressed() async {
-    String text = await Navigator.pushNamed(context, ':reminder');
-    if (text != null) {
-      setState(() {
-        reminders.add(new Reminder(text));
-      });
-    }
-  }
-
-//  void _incrementCounter() {
-//    setState(() {
-//      // This call to setState tells the Flutter framework that something has
-//      // changed in this State, which causes it to rerun the build method below
-//      // so that the display can reflect the updated values. If we changed
-//      // _counter without calling setState(), then the build method would not be
-//      // called again, and so nothing would appear to happen.
-////      _counter++;
-//
-//      platform.send("sended message");
-//      print("+ button clicked");
-//    });
-//  }
 }
+
 
 /*
 old center with buttons to create icon and add reminder
