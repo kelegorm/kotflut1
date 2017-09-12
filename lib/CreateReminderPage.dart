@@ -29,15 +29,44 @@ class CreateReminderPage extends StatelessWidget {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Reminder"),
+        textTheme: Theme.of(context).textTheme,
+        iconTheme: Theme.of(context).iconTheme,
+        backgroundColor: Colors.white,
+        actions: <Widget>[
+          new IconButton(icon: new Icon(Icons.query_builder), onPressed: () {}),
+          new MaterialButton(
+            onPressed: () => {},
+            child: new Text("Save".toUpperCase()),
+            textColor: Colors.blue,
+          )
+        ],
+        //leading: new Text("leading"), //todo set X icon
       ),
+      backgroundColor: new Color(0xffe0e0e0),
       body: new Column(
         children: <Widget>[
-          new ListTile(
-            title: new TextField(
-              autofocus: true,
-              onSubmitted: (text) => _textField_submitted(text, context),
+          new DecoratedBox(
+            decoration: new BoxDecoration(
+              color: new Color(0xffffffff),
             ),
-            leading: new Icon(Icons.note),
+            child: new ListTile(
+              title: new TextField(
+                decoration: new InputDecoration(
+                  isDense: true,
+                  hideDivider: true,
+                  helperText: 'helper text',
+                  hintText: 'Remember to...',
+                  hintStyle: Theme.of(context).textTheme.subhead.copyWith(color: Colors.black54.withAlpha(170)),
+                ),
+                style: Theme.of(context).textTheme.subhead.copyWith(color: Colors.black),
+                autofocus: true,
+                onSubmitted: (text) => _textField_submitted(text, context),
+              ),
+              leading: new Icon(
+                Icons.note,
+                color: Colors.blue,
+            ),
+            ),
           ),
         ]
       )

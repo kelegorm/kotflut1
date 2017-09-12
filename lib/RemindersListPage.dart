@@ -47,7 +47,12 @@ class _ReminderListPageState extends State<RemindersListPage> {
           var data = snapshot.value as Map;
           var text = data['text'];
 
-          return new ListTile(title: new Text(text));
+          return new ListTile(
+            title: new Text(
+                text,
+                style: Theme.of(context).textTheme.subhead.copyWith(color: Colors.black)
+            )
+          );
         }
       ),
       floatingActionButton: new FloatingActionButton(
