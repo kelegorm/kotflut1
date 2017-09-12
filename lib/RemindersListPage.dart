@@ -55,6 +55,19 @@ class _ReminderListPageState extends State<RemindersListPage> {
           );
         }
       ),
+      drawer: new Drawer(
+        child: new Column(
+          children: <Widget>[
+            new DrawerHeader(child: new Text("Drawer")),
+            new ListTile(
+              title: const Text('Add Reminder shortcut'),
+              onTap: () {
+                platform.send("make_icon");
+              },
+            ),
+          ],
+        ),
+      ),
       floatingActionButton: new FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, ':reminder'),
         tooltip: 'Increment',
@@ -63,14 +76,3 @@ class _ReminderListPageState extends State<RemindersListPage> {
     );
   }
 }
-
-
-/*
-old button to create icon
-    new MaterialButton(
-      child: new Text("add shortcut"),
-      onPressed: () {
-        platform.send("make_icon");
-      },
-    )
- */

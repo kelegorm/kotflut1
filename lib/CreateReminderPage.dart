@@ -33,14 +33,14 @@ class CreateReminderPage extends StatelessWidget {
         iconTheme: Theme.of(context).iconTheme,
         backgroundColor: Colors.white,
         actions: <Widget>[
-          new IconButton(icon: new Icon(Icons.query_builder), onPressed: () {}),
+          new IconButton(icon: new Icon(Icons.schedule), onPressed: () {}),
           new MaterialButton(
             onPressed: () => {},
             child: new Text("Save".toUpperCase()),
             textColor: Colors.blue,
           )
         ],
-        //leading: new Text("leading"), //todo set X icon
+        //leading: new Text("leading"), //todo set close icon
       ),
       backgroundColor: new Color(0xffe0e0e0),
       body: new Column(
