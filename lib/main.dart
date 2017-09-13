@@ -28,7 +28,8 @@ Future<Null> _ensureLoggedIn() async {
 }
 
 void main() {
-  runApp(new MainApp(reminders: reminders));
-  FirebaseDatabase.instance.setPersistenceEnabled(true);
   _ensureLoggedIn();
+  FirebaseDatabase.instance.setPersistenceEnabled(true);
+  reminders.keepSynced(true);
+  runApp(new MainApp(reminders: reminders));
 }
