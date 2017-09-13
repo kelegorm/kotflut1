@@ -8,22 +8,45 @@ import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
 
-class CreateReminderPage extends StatelessWidget {
+class CreateReminderPage extends StatefulWidget {
 
-  final DatabaseReference _reminders;
+  final DatabaseReference reminders;
+  final String recId;
 
 
-  CreateReminderPage({@required DatabaseReference ref})
-      : _reminders = ref
-  {
-    assert(_reminders != null);
+  CreateReminderPage({ @required this.reminders, this.recId}) {
+    assert(reminders != null);
   }
 
 
   @override
-  Widget build(BuildContext context) {
-    String reminderText;
+  State createState() => new _ReminderPageState(recId, reminders);
+}
 
+
+class _ReminderPageState extends State<CreateReminderPage> {
+  final String recId;
+  final DatabaseReference reminders;
+
+  Map _data;
+  String _reminderText = '';
+  TextEditingController _controller;
+
+
+  _ReminderPageState(this.recId, this.reminders);
+
+
+  @override
+  void initState() {
+    super.initState();
+    if (recId != null) {
+      _loadData();
+    }
+    _controller = new TextEditingController(text: _reminderText);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return new Scaffold(
         backgroundColor: new Color(0xffe0e0e0),
 
@@ -37,19 +60,7 @@ class CreateReminderPage extends StatelessWidget {
               icon: new Icon(Icons.close),
               onPressed: () => _navigationBack(context)
           ),
-          actions: <Widget>[
-            // SCHEDULE BUTTON
-            new IconButton(
-                icon: new Icon(Icons.schedule),
-                onPressed: () {}// Todo
-            ),
-            // SAVE BUTTON
-            new MaterialButton(
-              child: new Text("Save".toUpperCase()),
-              textColor: Colors.blue,
-              onPressed: () => _textField_submitted(reminderText, context),
-            )
-          ],
+          actions: _getControls(context),
         ),
 
         body: new Column(
@@ -60,22 +71,22 @@ class CreateReminderPage extends StatelessWidget {
               ),
               child: new ListTile(
                 title: new TextField(
+                  controller: _controller,
                   decoration: new InputDecoration(
                     isDense: true,
                     hideDivider: true,
-                    helperText: 'helper text',
                     hintText: 'Remember to...',
                     hintStyle: Theme.of(context).textTheme.subhead.copyWith(color: Colors.black54.withAlpha(170)),
                   ),
                   style: Theme.of(context).textTheme.subhead.copyWith(color: Colors.black),
                   autofocus: true,
-                  onSubmitted: (text) => _textField_submitted(text, context),
-                  onChanged: (text) => reminderText = text,
+                  onSubmitted: (text) => _saveReminder(text, context),
+                  onChanged: (text) => _reminderText = text,
                 ),
                 leading: new Icon(
                   Icons.note,
                   color: Colors.blue,
-              ),
+                ),
               ),
             ),
           ]
@@ -83,11 +94,32 @@ class CreateReminderPage extends StatelessWidget {
     );
   }
 
-  Future _textField_submitted(String text, BuildContext context) async {
-    _reminders.push().set({
+  List<Widget> _getControls(BuildContext context) => <Widget>[
+    // SCHEDULE BUTTON
+    new IconButton(
+        icon: new Icon(Icons.schedule),
+        onPressed: () {}// Todo
+    ),
+    // SAVE BUTTON
+    new MaterialButton(
+      child: new Text("Save".toUpperCase()),
+      textColor: Colors.blue,
+      onPressed: () => _saveReminder(_reminderText, context),
+    )
+  ];
+
+  Future _saveReminder(String text, BuildContext context) async {
+    var newData = {
       'text':text,
       //'creatorName': googleSignIn.currentUser.displayName,
-    });
+    };
+
+    if (recId == null) {
+      reminders.push().set(newData);
+    } else {
+      reminders.child(recId).set(newData);
+    }
+
     _navigationBack(context);
   }
 
@@ -97,5 +129,18 @@ class CreateReminderPage extends StatelessWidget {
     } else {
       SystemNavigator.pop();
     }
+  }
+
+  Future<Null> _loadData() async {
+    var snapshot = await reminders.child(recId).once();
+    setState(() {
+      this._data = snapshot.value as Map;
+      this._reminderText = _data['text'];
+      _controller.text = _reminderText;
+      _controller.selection = new TextSelection(
+          baseOffset: _reminderText.length,
+          extentOffset: _reminderText.length
+      );
+    });
   }
 }

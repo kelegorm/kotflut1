@@ -56,6 +56,7 @@ class _ReminderListPageState extends State<RemindersListPage> {
               icon: new Icon(Icons.close),
               onPressed: () => _deleteItem(context, snapshot)
             ),
+            onTap: () => _editItem(context, snapshot),
           );
         }
       ),
@@ -82,5 +83,9 @@ class _ReminderListPageState extends State<RemindersListPage> {
 
   void _deleteItem(BuildContext context, DataSnapshot snapshot) {
     reminders.child(snapshot.key).remove();
+  }
+
+  void _editItem(BuildContext context, DataSnapshot snapshot) {
+    Navigator.pushNamed(context, '/reminder/${snapshot.key}');
   }
 }

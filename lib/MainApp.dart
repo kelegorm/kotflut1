@@ -33,7 +33,7 @@ class _MainAppState extends State<MainApp> implements AppContext {
       home: new RemindersListPage(reminders: _reminders),
       routes: <String, WidgetBuilder>{
         ':reminder': (BuildContext context) => new CreateReminderPage(
-          ref: _reminders,
+          reminders: _reminders,
         )
       },
       onGenerateRoute: _getRoute,
@@ -42,6 +42,17 @@ class _MainAppState extends State<MainApp> implements AppContext {
 
 
   Route<Null> _getRoute(RouteSettings settings) {
+    var path = settings.name.split('/');
+    if (path[0] != '') return null;
+
+    if (path[1] == 'reminder') {
+      var key = path[2];
+      return new MaterialPageRoute(
+          settings: settings,
+          builder: (ctx) => new CreateReminderPage(reminders:_reminders, recId: key)
+      );
+    }
+
     return new MaterialPageRoute(
       builder: (BuildContext ctx) => new Scaffold(
           body: new Center(
