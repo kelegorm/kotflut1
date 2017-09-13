@@ -51,7 +51,11 @@ class _ReminderListPageState extends State<RemindersListPage> {
             title: new Text(
                 text,
                 style: Theme.of(context).textTheme.subhead.copyWith(color: Colors.black)
-            )
+            ),
+            trailing: new IconButton(
+              icon: new Icon(Icons.close),
+              onPressed: () => _deleteItem(context, snapshot)
+            ),
           );
         }
       ),
@@ -74,5 +78,9 @@ class _ReminderListPageState extends State<RemindersListPage> {
         child: new Icon(Icons.add),
       ),
     );
+  }
+
+  void _deleteItem(BuildContext context, DataSnapshot snapshot) {
+    reminders.child(snapshot.key).remove();
   }
 }

@@ -41,7 +41,8 @@ class CreateReminderPage extends StatelessWidget {
             // SCHEDULE BUTTON
             new IconButton(
                 icon: new Icon(Icons.schedule),
-                onPressed: () {}),// Todo
+                onPressed: () {}// Todo
+            ),
             // SAVE BUTTON
             new MaterialButton(
               child: new Text("Save".toUpperCase()),
